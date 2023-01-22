@@ -1,7 +1,21 @@
-export const App = () => {
+import React, { Component } from 'react';
+import ContactForm from '..//components/ContactForm/ContactForm';
+//import { nanoid } from 'nanoid';
+
+export class App extends Component {
+  render() {
+    return (
+      <div>
+        <ContactForm />
+      </div>
+    );
+  }
+}
+
+/*export const App = () => {
   return (
     <div
-      style={{
+    style={{
         height: '100vh',
         display: 'flex',
         justifyContent: 'center',
@@ -13,4 +27,4 @@ export const App = () => {
       React homework template
     </div>
   );
-};
+};*/
