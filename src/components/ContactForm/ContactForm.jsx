@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 //import PropTypes from 'prop-types';
 export class ContactForm extends Component {
   state = {
-    contacts: [],
+    //contacts: [],
     name: '',
     number: '',
   };
@@ -14,6 +14,7 @@ export class ContactForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+
     this.props.onSubmit(this.state);
     this.reset();
   };
