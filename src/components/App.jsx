@@ -18,9 +18,12 @@ export class App extends Component {
       name: data.name,
       number: data.number,
     };
-    this.setState(({ contacts }) => ({
-      contacts: [contact, ...contacts],
-    }));
+    if (this.state.contacts.find(({ name }) => name === data.name)) {
+      return alert(`${data.name} already in contacts`);
+    } else
+      this.setState(({ contacts }) => ({
+        contacts: [contact, ...contacts],
+      }));
   };
 
   handleDelete = id => {
@@ -35,13 +38,19 @@ export class App extends Component {
     this.setState({ filter: e.currentTarget.value });
   };
 
-  render() {
-    const { contacts, filter } = this.state;
+  getVisibleFilter = () => {
+    const { filter, contacts } = this.state;
+    const normalizedFilter = filter.toLowerCase();
 
-    const filteredContact = contacts.filter(({ name }) =>
-      name.toLowerCase().includes(filter)
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
     );
+  };
 
+  render() {
+    const { filter } = this.state;
+
+    const filteredContact = this.getVisibleFilter();
     return (
       <div>
         <h1>Phonebook</h1>
