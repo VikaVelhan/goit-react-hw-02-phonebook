@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import ContactForm from '..//components/ContactForm/ContactForm';
-import ContactList from '..//components/ContactList/ContactList';
-import initialContacts from '..//Contacts/Contacts.json';
 import { nanoid } from 'nanoid';
+import ContactForm from '../components/ContactForm/ContactForm';
+import ContactList from '../components/ContactList/ContactList';
+import Filter from '../components/Filter/Filter';
+import initialContacts from '..//Contacts/Contacts.json';
 
 export class App extends Component {
   state = {
@@ -17,10 +18,11 @@ export class App extends Component {
       name: data.name,
       number: data.number,
     };
-    this.setState(prevState => ({
-      contacts: [contact, ...prevState.contacts],
+    this.setState(({ contacts }) => ({
+      contacts: [contact, ...contacts],
     }));
   };
+
   handleDelete = id => {
     this.setState(prevState => {
       return {
@@ -29,32 +31,29 @@ export class App extends Component {
     });
   };
 
+  changeFilter = e => {
+    this.setState({ filter: e.currentTarget.value });
+  };
+
   render() {
-    const { contacts } = this.state;
+    const { contacts, filter } = this.state;
+
+    const filteredContact = contacts.filter(({ name }) =>
+      name.toLowerCase().includes(filter)
+    );
+
     return (
       <div>
         <h1>Phonebook</h1>
+
         <ContactForm onSubmit={this.formSubmitHandler} />
+
         <h2>Contacts</h2>
-        <ContactList contacts={contacts} onDelete={this.handleDelete} />
+
+        <Filter value={filter} onChange={this.changeFilter} />
+
+        <ContactList contacts={filteredContact} onDelete={this.handleDelete} />
       </div>
     );
   }
 }
-
-/*export const App = () => {
-  return (
-    <div
-    style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
-  );
-};*/
